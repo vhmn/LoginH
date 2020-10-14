@@ -8,10 +8,11 @@ from app.form import SignInForm, SignUpForm
 import dbconfig, main
 import hashlib, binascii, os, sys
 
+""" Implementacion para hashear passwords """
 
 class hasheo:
 
-    """ Implementacion para hashear passwords """
+    
 
     def __init__(self, password, username):
         self.password = password
