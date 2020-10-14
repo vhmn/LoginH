@@ -12,6 +12,10 @@ from app.form import SignInForm, SignUpForm
 import dbconfig
 import hashlib, binascii, os, sys
 
+#importamos la clase en la que se realiza el hasheo y la verificación
+from custom_hash import hasheo
+
+
 app = create_app()
 
 
@@ -25,21 +29,17 @@ def signin():
     if data_form.validate_on_submit():
         #Las variables de nombre de usuario y password toman los valores ingresados por el usuario en el formulario
         username= data_form.username.data
-        pass_ingresado = data_form.password.data
+        pass_ingresado = data_form.password.data 
         
-        #User es un diccionario con los datos con el mismo nombre del usuario ingresado
+        #las variables de usuario y contraseña se obtienen de la base de datos
         user = dbconfig.db_users.users.find_one({'username':username})
-        #Se asigna a una variable el password contenido en el diccionario
         pass_almacenado = user['password']
-
-        salt = pass_almacenado[:64]
         pass_almacenado = pass_almacenado[64:]
-        #hasheamos el password que acaba de ingresar el usuario
-        # con la sal que teniamos en la base de datos
-        pwdhash = hashlib.pbkdf2_hmac('sha512', pass_ingresado.encode('utf-8'), salt.encode('ascii'), 100000)
-        pwdhash = binascii.hexlify(pwdhash).decode('ascii')
 
-        #Comparamos el contenido del pass almacenado y el password que acaba de ingresar el usuario
+        #Creamos un objeto de la clase hasheo, para poder hacer uso de sus métodos
+        p1 = hasheo(pass_ingresado, username) 
+        pwdhash = p1.verificar()
+
         if pass_almacenado == pwdhash:
             #Si se comprueba que el password ingresado es igual al almacenado se redirige a inicio exitoso
             return redirect('/success')
