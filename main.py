@@ -37,6 +37,8 @@ def signin():
         pass_almacenado = pass_almacenado[64:]
 
         #Creamos un objeto de la clase hasheo, para poder hacer uso de sus métodos
+        # se envian los parametros del password ingresado por el usuario y el nombre de usuario
+        # almacenado en la base de datos
         p1 = hasheo(pass_ingresado, username) 
         pwdhash = p1.verificar()
 
@@ -66,16 +68,9 @@ def signup():
 
         if password == c_password:
 
-            #Generamos la sal a partir de urandom, el cual creara un objeto de bytes aleatorios
-            salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-            #Creamos el hash, especificando el tipo de algoritmo que se usara, la codificación, 
-            # la sal y el número de iteraciones
-            pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), salt, 100000)
-            #Cambiamos a una representación hexadecimal
-            pwdhash = binascii.hexlify(pwdhash)
-            # Concatenamos la sal y el hash y los codificamos en un formato para almacenar
-            hash_ = (salt + pwdhash).decode('ascii')
-            
+            p = hasheo(password, username) 
+            hash_ = p.hash()
+                        
             #insertamos los datos en la colección de MongoDB
             dbconfig.db_users.users.insert_one({
                 'username': username,
