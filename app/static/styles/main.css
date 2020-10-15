@@ -32,3 +32,9 @@ p{
     margin-top: 1%
 }
 
+#btnreload{
+    border: none;
+    padding: 0%;
+    display: inline;
+}
+

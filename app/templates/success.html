@@ -2,7 +2,6 @@
 
 {% block title %}
     Sesión Iniciada
-    {{title}}
     {{super()}}
 {% endblock %}
 
@@ -10,11 +9,6 @@
     <div class="container">
         <h1>Sesión Iniciada Exitosamente</h1>
         <hr>
-        <!--Bonton para cerrar sesión y redirigir a Inicio de sesión -->
-        <a href="{{url_for('signin')}}"
-           class= "btn btn-primary"
-           role="button" aria-pressed="True"
-           >Cerrar sesión</a>
     </div>
     <div class="container mt-5" style="word-wrap: break-word">
         <p>Llave pública: {{ public }}</p>
@@ -22,6 +16,19 @@
     </div>
     <div class="container mt-5" style="word-wrap: break-word">
         <p>Llave privada: {{ private }}</p>
+                <!--Bonton para cerrar sesión y redirigir a Inicio de sesión -->
+                <a href="{{url_for('signin')}}"
+                class= "btn btn-danger"
+                role="button" aria-pressed="True"
+                style = "margin-top: 1%;"
+                >Cerrar sesión</a>
+                <a
+                class= "btn btn-info"
+                role="button" aria-pressed="True"
+                style = "margin-top: 1%;"
+                onClick="window.location.reload();"
+                >Generar Llaves</a>
+               
     </div>
 {% endblock content %}
 

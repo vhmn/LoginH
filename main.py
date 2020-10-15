@@ -1,6 +1,9 @@
 #set FLASK_APP=main.py
 #set FLASK_DEBUG=1
 #set FLASK_ENV=development
+import Crypto 
+import binascii
+from Crypto.PublicKey import RSA 
 
 # Flask
 from flask import render_template, redirect, url_for, flash
@@ -9,7 +12,7 @@ from flask_pymongo import pymongo
 # Local config
 from app import create_app
 from app.form import SignInForm, SignUpForm
-from app.keygen import public_key,private_key
+from app.keygen import keygenerator
 import dbconfig
 import hashlib, binascii, os, sys
 
@@ -44,10 +47,7 @@ def signin():
 
         if pass_almacenado == pwdhash:
             #Si se comprueba que el password ingresado es igual al almacenado se redirige a inicio exitoso
-            keys = {
-                'public': public_key ,
-                'private': private_key
-            }
+            keys = keygenerator()
             return render_template('success.html', **keys)
         else:
             #Si el password no coincide se envia un mensaje de error
@@ -91,4 +91,5 @@ def signup():
 
 @app.route('/success')
 def success():
-    return render_template('success.html')
+    keys = keygenerator()
+    return render_template('success.html', **keys)
