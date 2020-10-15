@@ -9,6 +9,7 @@ from flask_pymongo import pymongo
 # Local config
 from app import create_app
 from app.form import SignInForm, SignUpForm
+from app.keygen import public_key,private_key
 import dbconfig
 import hashlib, binascii, os, sys
 
@@ -18,12 +19,11 @@ from custom_hash import hasheo
 
 app = create_app()
 
-
 @app.route('/', methods=['GET','POST'])
 def signin():
     data_form = SignInForm()
     context = {
-        'title':'Sign In',
+        'title':'Inicio de Sesión',
         'data_form': data_form
     }
     if data_form.validate_on_submit():
@@ -44,10 +44,14 @@ def signin():
 
         if pass_almacenado == pwdhash:
             #Si se comprueba que el password ingresado es igual al almacenado se redirige a inicio exitoso
-            return redirect('/success')
+            keys = {
+                'public': public_key ,
+                'private': private_key
+            }
+            return render_template('success.html', **keys)
         else:
             #Si el password no coincide se envia un mensaje de error
-            flash('Incorrect Password')
+            flash('Contraseña incorrecta')
     # Y se redirige a la pantalla de registro
     return render_template('signin.html', **context)
 
@@ -55,7 +59,7 @@ def signin():
 def signup():
     data_form = SignUpForm()
     context={
-        'title':'Sign Up',
+        'title':'Crear cuenta',
         'data_form': data_form,
     }
 
@@ -80,7 +84,7 @@ def signup():
             })
             return redirect('/')
         else:
-            flash('Passwords do not match')
+            flash('Las contraseñas no coinciden')
 
     return render_template('signup.html', **context)
 

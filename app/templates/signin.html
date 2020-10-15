@@ -9,13 +9,16 @@
 {% block content %}
     <div class="container">
         <h1>{{title}}</h1>
+        <hr>
         {{wtf.quick_form(data_form)}}
+        <hr>
     </div>
-    <div class="container mt-5" style='margin-top: 25px;'>
-        <h3>Don't have an account?</h3>
+    
+    <div class="container mt-5" style="margin-top: -1%;">
+        <h3>¿No tienes una cuenta? ¡Crea una!</h3>
         <a href="{{url_for('signup')}}"
-           class= "btn btn-success btn-m active"
+           class= "btn btn-link btn-m active"
            role="button" aria-pressed="True"
-           >Sing Up</a>
+           >Crear cuenta</a>
     </div>
 {% endblock content %}

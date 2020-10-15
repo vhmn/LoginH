@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Success
+    Sesión Iniciada
     {{super()}}
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Login Success</h1>
+        <h1>Sesión Iniciada Exitosamente</h1>
+        <hr>
+    </div>
+    <div class="container mt-5" style="word-wrap: break-word">
+        <p>Llave pública: {{ public }}</p>
+        <hr>
+    </div>
+    <div class="container mt-5" style="word-wrap: break-word">
+        <p>Llave privada: {{ private }}</p>
     </div>
 {% endblock content %}
 

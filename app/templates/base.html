@@ -5,11 +5,13 @@
     {{ super() }}
     <title> {% block title %} | Flask app {% endblock %} </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css')}}">
+    
 {% endblock %}
 
 {% block body %}
 
     {% for message in get_flashed_messages() %}
+    
         <div class="alert alert-danger alert-dismissable">
             <button type="button" data-dismiss='alert' class="close">&times;</button>
             {{message}}
