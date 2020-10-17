@@ -6,7 +6,10 @@ import binascii
 #Importa la funcion RSA de la libreria PublicKey de Crypto
 from Crypto.PublicKey import RSA 
 
+#Se crea una funcion para generar llaves aleatorias cada vez
+#que se acceda a ella
 def keygenerator(): 
+
 #Se crea un objeto de generador random 
     random_generator = Crypto.Random.new().read 
 
@@ -28,9 +31,11 @@ def keygenerator():
     private_key = binascii.hexlify(private_key).decode('utf-8') 
     public_key = binascii.hexlify(public_key).decode('utf-8') 
 
+#Se guardan las llaves en formato UTF-8 en un directorio para
+#ser enviadas más facilmente
     keys = {
                 'public': public_key ,
                 'private': private_key
             }
-            
+#Se manda el directorio con las llaves a la pagina donde se van a mostrar            
     return(keys)
