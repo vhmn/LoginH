@@ -39,20 +39,18 @@ def signin():
         pass_almacenado = user['password']
         pass_almacenado = pass_almacenado[64:]
 
-        #Creamos un objeto de la clase hasheo, para poder hacer uso de sus métodos
-        # se envian los parametros del password ingresado por el usuario y el nombre de usuario
-        # almacenado en la base de datos
+        #Creamos un objeto de la clase hasheo, se envia password y nombre de usuario
         p1 = hasheo(pass_ingresado, username) 
+        #Se utiliza el método creado para verificar que sea el mismo pass
         pwdhash = p1.verificar()
 
         if pass_almacenado == pwdhash:
-            #Si se comprueba que el password ingresado es igual al almacenado se redirige a inicio exitoso
+            #Si se comprueba que el password es igual al guardado, se redirige a inicio exitoso
             keys = keygenerator()
             return render_template('success.html', **keys)
         else:
             #Si el password no coincide se envia un mensaje de error
             flash('Contraseña incorrecta')
-    # Y se redirige a la pantalla de registro
     return render_template('signin.html', **context)
 
 @app.route('/signup', methods=['GET','POST'])
@@ -62,14 +60,14 @@ def signup():
         'title':'Crear cuenta',
         'data_form': data_form,
     }
-
+    #En caso de validar los datos, se almacenan en la variable designada
     if data_form.validate_on_submit():
         username = data_form.username.data
         email = data_form.email.data
         name = data_form.name.data
         password = data_form.password.data
         c_password = data_form.retry_password.data
-
+        # Se verifica que el pass y su confirmación coincidan
         if password == c_password:
 
             p = hasheo(password, username) 
@@ -84,11 +82,12 @@ def signup():
             })
             return redirect('/')
         else:
+            #Si no coinciden los pass se redirige y muestra mensaje de error
             flash('Las contraseñas no coinciden')
 
     return render_template('signup.html', **context)
 
-
+#Ruta para inicio de sesión exitoso
 @app.route('/success')
 def success():
     keys = keygenerator()
