@@ -36,6 +36,7 @@ class hasheo:
         user = dbconfig.db_users.users.find_one({'username':self.username})
         #Se asigna a una variable el password contenido en el diccionario
         pass_almacenado = user['password']
+        #Obtenemos la sal del password almacenado
         salt = pass_almacenado[:64]
         #hasheamos el password ingresado con la sal que ya teniamos almacenada
         pwdhash = hashlib.pbkdf2_hmac('sha512', self.password.encode('utf-8'), salt.encode('ascii'), 100000)
