@@ -21,8 +21,8 @@ class hasheo:
     def hash(self):
         #Generamos la sal a partir de urandom, el cual creara un objeto de bytes aleatorios
         salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-        #Creamos el hash, especificando el tipo de algoritmo, la codificación, 
-        # la sal y el número de iteraciones
+        """Creamos el hash, especificando el tipo de algoritmo, la codificación, 
+        la sal y el número de iteraciones"""
         pwdhash = hashlib.pbkdf2_hmac('sha512', self.password.encode('utf-8'), salt, 100000)
         #Cambiamos a una representación hexadecimal
         pwdhash = binascii.hexlify(pwdhash)
